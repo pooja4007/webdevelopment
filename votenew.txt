@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        form, .results {
+            margin: 20px auto;
+            display: inline-block;
+            text-align: left;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Voting System</h1>
+
+    <?php
+    // Global variable to track total votes
+    $totalVotes = 0;
+
+    // Voting class definition
+    class VoteCounter {
+        private $votes = []; // Stores votes for each candidate
+
+        public function __construct($candidates) {
+            foreach ($candidates as $candidate) {
+                $this->votes[$candidate] = 0;
+            }
+        }
+
+        public function castVote($candidate) {
+            global $totalVotes; // Access the global total votes
+            if (array_key_exists($candidate, $this->votes)) {
+                $this->votes[$candidate]++;
+                $totalVotes++;
+            } else {
+                echo "<p style='color: red;'>Candidate '$candidate' not found.</p>";
+            }
+        }
+
+        public function displayVotes() {
+            foreach ($this->votes as $candidate => $voteCount) {
+                echo "<p>Votes for $candidate: $voteCount</p>";
+            }
+        }
+
+        public function getVotes() {
+            return $this->votes;
+        }
+    }
+
+    // Initialize candidates
+    $candidates = ["Alice", "Bob", "Charlie"];
+    session_start();
+
+    // Check if a VoteCounter instance exists in the session
+    if (!isset($_SESSION['voteCounter'])) {
+        $_SESSION['voteCounter'] = serialize(new VoteCounter($candidates));
+    }
+
+    // Retrieve the VoteCounter instance
+    $voteCounter = unserialize($_SESSION['voteCounter']);
+
+    // Handle form submission
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $selectedCandidate = $_POST['candidate'] ?? '';
+        $voteCounter->castVote($selectedCandidate);
+        $_SESSION['voteCounter'] = serialize($voteCounter); // Save state
+    }
+
+    ?>
+
+    <!-- Voting Form -->
+    <form method="POST" action="">
+        <h2>Cast Your Vote</h2>
+        <?php foreach ($candidates as $candidate): ?>
+            <button type="submit" name="candidate" value="<?= $candidate ?>">
+                Vote for <?= $candidate ?>
+            </button>
+        <?php endforeach; ?>
+    </form>
+
+    <!-- Display Results -->
+    <div class="results">
+        <h2>Results</h2>
+        <?php $voteCounter->displayVotes(); ?>
+    </div>
+
+</body>
+</html
