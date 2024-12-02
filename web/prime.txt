@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Generator</title>
+</head>
+<body>
+    <h1>Generate Prime Numbers</h1>
+    
+    <form method="post" action="">
+        <label for="numPrimes">Enter the number of prime numbers to generate:</label>
+        <input type="number" id="numPrimes" name="numPrimes" min="1" required>
+        <button type="submit">Generate Primes</button>
+    </form>
+
+    <?php
+    // Function to check if a number is prime
+    function isPrime($num) {
+        if ($num < 2) return false; // Numbers less than 2 are not prime
+        for ($i = 2; $i <= sqrt($num); $i++) {
+            if ($num % $i == 0) return false; // If divisible, not prime
+        }
+        return true;
+    }
+
+    // Function to print the first N prime numbers
+    function printNPrimes($n) {
+        $count = 0;
+        $num = 2;
+        while ($count < $n) {
+            if (isPrime($num)) {
+                echo $num . " "; // Print the prime number
+                $count++;
+            }
+            $num++;
+        }
+    }
+
+    // Check if form is submitted and process input
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $n = $_POST["numPrimes"];
+        
+        // Call the function to print prime numbers
+        echo "<h3>First $n prime numbers:</h3>";
+        printNPrimes($n);
+    }
+    ?>
+</body>
+</html>

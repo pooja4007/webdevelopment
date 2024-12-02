@@ -1,0 +1,73 @@
+<?php
+// Database credentials
+$servername = "localhost"; // Typically "localhost"
+$username = "root"; // Your MySQL username
+$password = ""; // Your MySQL password
+$dbname = "school"; // Your MySQL database name
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully<br>";
+
+// Step 1: Create the "students" table if it doesn't already exist
+function createTable($conn) {
+    $sql = "CREATE TABLE IF NOT EXISTS students (
+        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(50) NOT NULL,
+        age INT(3),
+        grade VARCHAR(10)
+    )";
+    
+    if ($conn->query($sql) === TRUE) {
+        echo "Table 'students' created successfully<br>";
+    } else {
+        echo "Error creating table: " . $conn->error . "<br>";
+    }
+}
+
+// Step 2: Insert student details
+function insertStudent($conn, $name, $age, $grade) {
+    $stmt = $conn->prepare("INSERT INTO students (name, age, grade) VALUES (?, ?, ?)");
+    $stmt->bind_param("sis", $name, $age, $grade); // "s" for string, "i" for integer
+    
+    if ($stmt->execute()) {
+        echo "New student record created successfully<br>";
+    } else {
+        echo "Error: " . $stmt->error . "<br>";
+    }
+    
+    $stmt->close();
+}
+
+// Step 3: Update student details
+function updateStudent($conn, $id, $name, $age, $grade) {
+    $stmt = $conn->prepare("UPDATE students SET name = ?, age = ?, grade = ? WHERE id = ?");
+    $stmt->bind_param("sisi", $name, $age, $grade, $id); // "s" for string, "i" for integer
+    
+    if ($stmt->execute()) {
+        echo "Student record updated successfully<br>";
+    } else {
+        echo "Error updating record: " . $stmt->error . "<br>";
+    }
+    
+    $stmt->close();
+}
+
+// Create the students table
+createTable($conn);
+
+// Insert sample student records
+insertStudent($conn, "John Doe", 16, "10th Grade");
+insertStudent($conn, "Jane Smith", 15, "9th Grade");
+
+// Update a student's details
+updateStudent($conn, 1, "John Doe", 17, "11th Grade");
+
+// Close the connection
+$conn->close();
+?>

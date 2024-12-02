@@ -1,0 +1,54 @@
+<?php
+// Global variable to track total votes cast across all candidates
+$totalVotes = 0;
+class VoteCounter {
+ private $votes = []; // Local array to store votes for each 
+candidate
+ // Constructor to initialize candidates
+ public function __construct($candidates) {
+ foreach ($candidates as $candidate) {
+ $this->votes[$candidate] = 0;
+ }
+ }
+ // Method to cast a vote (local scope for candidate variable)
+ public function castVote($candidate) {
+ global $totalVotes; // Accessing global variable
+ if (array_key_exists($candidate, $this->votes)) {
+ $this->votes[$candidate]++;
+ $totalVotes++; // Incrementing global total votes count
+ } else {
+ echo "Candidate '$candidate' not found.\n";
+ }
+ }
+ // Static method to track number of times votes are counted
+ public static function tallyCalls() {
+ static $callCount = 0; // Static variable to retain count 
+across calls
+ $callCount++;
+ return $callCount;
+ }
+ // Method to display vote count for each candidate
+ public function displayVotes() {
+ foreach ($this->votes as $candidate => $voteCount) {
+ echo "Votes for $candidate: $voteCount\n";
+ }
+ }
+}
+// Instantiate VoteCounter with a list of candidates
+$candidates = ["Alice", "Bob", "Charlie"];
+$voteCounter = new VoteCounter($candidates);
+// Cast some votes
+$voteCounter->castVote("Alice");
+$voteCounter->castVote("Bob");
+$voteCounter->castVote("Alice");
+$voteCounter->castVote("Charlie");
+$voteCounter->castVote("Alice");
+// Display individual candidate vote counts
+$voteCounter->displayVotes();
+// Show total votes using the global variable
+echo "Total votes cast: $totalVotes\n";
+// Demonstrate static tally calls
+echo "Tally called " . VoteCounter::tallyCalls() . " time(s)\n";
+echo "Tally called " . VoteCounter::tallyCalls() . " time(s)\n"; // 
+Call again to demonstrate static behavior
+?>

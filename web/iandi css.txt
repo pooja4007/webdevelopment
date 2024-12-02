@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* Internal CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 10px 0;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Portfolio</h1>
+        <p style="font-size: 18px;">Welcome to my personal portfolio website</p> <!-- Inline CSS -->
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>About Me</h2>
+            <p style="text-align: justify;">Hello! My name is <strong>[Your Name]</strong>. I am a passionate <strong>[Your Profession]</strong> specializing in <strong>[Your Skills]</strong>. I enjoy creating and bringing ideas to life.</p>
+        </section>
+
+        <section>
+            <h2>Projects</h2>
+            <ul>
+                <li style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                    <strong>Project 1:</strong> <em>Title</em> - Brief description of the project.
+                </li>
+                <li style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                    <strong>Project 2:</strong> <em>Title</em> - Brief description of the project.
+                </li>
+                <li style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                    <strong>Project 3:</strong> <em>Title</em> - Brief description of the project.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <p>You can reach me at:</p>
+            <p>Email: <a href="mailto:your.email@example.com" style="color: #0066cc;">your.email@example.com</a></p>
+            <p>Phone: +123 456 7890</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 [Your Name]. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
